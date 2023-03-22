@@ -1,7 +1,7 @@
 package model
 
 import (
-	"jackalCLI/jwiz/pages"
+	"github.com/JackalLabs/jwiz/jwiz/pages"
 
 	"github.com/charmbracelet/bubbles/spinner"
 )

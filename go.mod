@@ -1,4 +1,4 @@
-module jackalCLI
+module github.com/JackalLabs/jwiz
 
 go 1.20
 

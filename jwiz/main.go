@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"jackalCLI/jwiz/model"
-	"jackalCLI/jwiz/pages/intro_page"
 	"os"
+
+	"github.com/JackalLabs/jwiz/jwiz/model"
+	"github.com/JackalLabs/jwiz/jwiz/pages/intro_page"
 
 	tea "github.com/charmbracelet/bubbletea"
 )

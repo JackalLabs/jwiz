@@ -1,7 +1,7 @@
 package intro_page
 
 import (
-	"jackalCLI/jwiz/model"
+	"github.com/JackalLabs/jwiz/jwiz/model"
 
 	"github.com/erikgeiser/promptkit/selection"
 )

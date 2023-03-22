@@ -1,10 +1,11 @@
 package rpc_install
 
 import (
-	"jackalCLI/jwiz/model"
-	"jackalCLI/jwiz/pages"
 	"log"
 	"sort"
+
+	"github.com/JackalLabs/jwiz/jwiz/model"
+	"github.com/JackalLabs/jwiz/jwiz/pages"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"

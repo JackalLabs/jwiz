@@ -1,6 +1,6 @@
 package model
 
-import "jackalCLI/jwiz/pages"
+import "github.com/JackalLabs/jwiz/jwiz/pages"
 
 func NewStack() Stack {
 	return Stack{

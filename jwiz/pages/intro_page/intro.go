@@ -1,9 +1,9 @@
 package intro_page
 
 import (
-	"jackalCLI/jwiz/model"
-	"jackalCLI/jwiz/pages"
-	"jackalCLI/jwiz/pages/rpc_install"
+	"github.com/JackalLabs/jwiz/jwiz/model"
+	"github.com/JackalLabs/jwiz/jwiz/pages"
+	"github.com/JackalLabs/jwiz/jwiz/pages/rpc_install"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/erikgeiser/promptkit/selection"

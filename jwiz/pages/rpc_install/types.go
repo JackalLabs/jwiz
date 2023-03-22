@@ -3,7 +3,8 @@ package rpc_install
 import (
 	"fmt"
 	"io"
-	"jackalCLI/jwiz/model"
+
+	"github.com/JackalLabs/jwiz/jwiz/model"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
