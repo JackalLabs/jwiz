@@ -1,4 +1,4 @@
 build:
-	@go build -o build/jwiz ./jwiz
+	@go build -o build/jwiz
 install:
-	@go install ./jwiz
+	@go install
