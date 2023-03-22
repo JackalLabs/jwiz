@@ -1,0 +1,3 @@
+# jwiz
+Jackal Installation Wizard
+
