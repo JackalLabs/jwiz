@@ -1,0 +1,29 @@
+FROM golang:1.20
+# provider build script
+
+# creating new working dir in the container
+WORKDIR /home/canine-provider
+
+# installing necessary programs
+RUN apt-get update
+RUN apt-get install git jq net-tools -y
+
+# cloning the release version
+ARG RELEASE
+RUN git clone -b ${RELEASE} https://github.com/JackalLabs/canine-provider.git /home/canine-provider
+
+# installing the canine provider
+RUN make install
+# installing the canine provider binary
+RUN go install /home/canine-provider/jprov/jprovd
+
+# generating provider key
+RUN jprovd client gen-key
+
+# setting config -- node will be determined later
+RUN jprovd client config chain-id testing 
+
+# keeping the container as an executable
+CMD ["tail", "-f", "/dev/null" ]
+
+EXPOSE 3333 

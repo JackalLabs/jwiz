@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+  reverse-proxy:
+    image: 'jwilder/nginx-proxy:latest'
+    container_name: reverse-proxy
+    volumes:
+      - '/root/html:/usr/share/nginx/html'
+      - '/root/dhparam:/etc/nginx/dhparam'
+      - '/root/vhost:/etc/nginx/vhost.d'
+      - '/root/certs:/etc/nginx/certs'
+      - '/run/docker.sock:/tmp/docker.sock:ro'
+    restart: always
+    networks:
+      - nginx-net
+    ports:
+      - '80:80'
+      - '443:443'
+  letsencrypt:
+    image: 'jrcs/letsencrypt-nginx-proxy-companion:latest'
+    container_name: letsencrypt-helper
+    volumes:
+      - '/root/html:/usr/share/nginx/html'
+      - '/root/dhparam:/etc/nginx/dhparam'
+      - '/root/vhost:/etc/nginx/vhost.d'
+      - '/root/certs:/etc/nginx/certs'
+      - '/run/docker.sock:/tmp/docker.sock:ro'
+    environment:
+      NGINX_PROXY_CONTAINER: reverse-proxy
+      DEFAULT_EMAIL: max@jackallabs.io
+    restart: always
+    depends_on:
+      - reverse-proxy
+    networks:
+      - nginx-net
+volumes:
+  certs: null
+  html: null
+  vhost: null
+  dhparam: null
+networks:
+  nginx-net:
+    external: true
