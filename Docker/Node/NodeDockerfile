@@ -18,7 +18,7 @@ RUN make install
 # installing the canine binary
 RUN go install /home/canine-node/cmd/canined
 
-ARG NODE_SCRIPT=node.sh
+ARG NODE_SCRIPT=config-node.sh
 # copying the node setup script 
 COPY ${NODE_SCRIPT} /home/canine-node/scripts
 RUN chmod +x /home/canine-node/scripts/${NODE_SCRIPT}

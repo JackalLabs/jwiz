@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# running inside the blockchain
 # collecting keywords
 # required keywords: NODE_NAME,  CHAIN_ID, 
 for ARGUMENT in "$@"
@@ -21,7 +22,7 @@ rm -rf $HOME/.canine
 # making a new jackal directory
 mkdir $HOME/.canine
 
-# initializing the validator 
+# initializing the regular node
 canined init $NODE_NAME --chain-id=$CHAIN_ID 
 
 # copying the genesis

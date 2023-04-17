@@ -23,7 +23,7 @@ services:
       - '/root/dhparam:/etc/nginx/dhparam'
       - '/root/vhost:/etc/nginx/vhost.d'
       - '/root/certs:/etc/nginx/certs'
-      - '/run/docker.sock:/tmp/docker.sock:ro'
+      - '/run/docker.sock:/var/run/docker.sock:ro'
     environment:
       NGINX_PROXY_CONTAINER: reverse-proxy
       DEFAULT_EMAIL: max@jackallabs.io
@@ -33,10 +33,10 @@ services:
     networks:
       - nginx-net
 volumes:
-  certs: null
-  html: null
-  vhost: null
-  dhparam: null
+  certs: 
+  html: 
+  vhost: 
+  dhparam: 
 networks:
   nginx-net:
     external: true

@@ -13,6 +13,10 @@ do
    export "$KEY"="$VALUE"
 done
 
+# creating a new jackal network
+docker network remove jackal-test -f
+docker network create jackal-test
+
 # building the validator docker image
 docker buildx build . -t validator \
 -f ValidatorDockerfile \
@@ -23,7 +27,7 @@ docker buildx build . -t validator \
 # running the docker image
 docker run -d -v "/root/common_store:/home/common_store" \
 --name=genesis-validator \
-validator
+--network=jackal-test validator
 
 # executing internal scripts
 sudo docker exec genesis-validator bash /home/canine-validator/scripts/genesis-validator.sh \
@@ -36,6 +40,7 @@ do
     # running the docker image
     docker run -d -v "/root/common_store:/home/common_store" \
     --name=validator_${i} \
+    --network=jackal-test \
     validator
 
     # executing internal scripts
@@ -73,6 +78,9 @@ do
     docker exec validator_${i} sed -i "s|tcp://127\.0\.0\.1:26657|tcp://$IPADDR:26657|" $HOME/.canine/config/config.toml
     docker exec validator_${i} sed -i "s|tcp://127\.0\.0\.1:26658|tcp://$IPADDR:26658|" $HOME/.canine/config/config.toml
 done
+
+# powering on the https-compatible rpc node
+# bash node-rpc.sh 
 
 # starting the chain 
 docker exec -d genesis-validator canined start
