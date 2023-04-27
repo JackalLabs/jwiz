@@ -30,7 +30,7 @@ docker run -d -v "/root/common_store:/home/common_store" \
 --network=jackal-test validator
 
 # executing internal scripts
-sudo docker exec genesis-validator bash /home/canine-validator/scripts/genesis-validator.sh \
+docker exec genesis-validator bash /home/canine-validator/scripts/genesis-validator.sh \
 VALIDATOR_NAME=genesis-val \
 CHAIN_ID=$CHAIN_ID
 
@@ -69,8 +69,8 @@ do
     # docker exec validator_${i} rm -rf /root/.canine/config/gentx
     docker exec validator_${i} cp /home/common_store/genesis.json /root/.canine/config/genesis.json
     docker exec validator_${i} cp -RT /home/common_store/gentx /root/.canine/config/gentx
-    docker exec validator_${i} canined collect-gentxs --chain-id=$CHAIN_ID
-    docker exec validator_${i} canined tendermint unsafe-reset-all --chain-id=$CHAIN_ID 
+    docker exec validator_${i} canined collect-gentxs --chain-id=${CHAIN_ID}
+    docker exec validator_${i} canined tendermint unsafe-reset-all --chain-id=${CHAIN_ID} 
 
     # changing the validator listening address in config.toml
     export IPADDR=$(docker exec validator_${i} hostname -I | tr -d ' ')
@@ -80,11 +80,17 @@ do
 done
 
 # powering on the https-compatible rpc node
-# bash node-rpc.sh 
+bash node-rpc.sh NODE_NAME=jackal-rpc \
+CHAIN_ID=${CHAIN_ID} \
+HOSTNAME=max.jackaldao.com \
+NODE_RELEASE=${RELEASE} \
+HOSTNETWORK=jackal-test
 
 # starting the chain 
 docker exec -d genesis-validator canined start
+docker exec -d jackal-rpc canined start
 for ((i=1; i <= $NUM_VALIDATORS-1; i++));
 do
     docker exec -d validator_${i} canined start 
 done
+

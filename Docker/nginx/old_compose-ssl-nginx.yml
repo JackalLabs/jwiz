@@ -10,6 +10,8 @@ services:
       - '/root/certs:/etc/nginx/certs'
       - '/run/docker.sock:/tmp/docker.sock:ro'
     restart: always
+    networks:
+      - nginx-net
     ports:
       - '80:80'
       - '443:443'
@@ -28,8 +30,13 @@ services:
     restart: always
     depends_on:
       - reverse-proxy
+    networks:
+      - nginx-net
 volumes:
   certs: 
   html: 
   vhost: 
-  dhparam:
+  dhparam: 
+networks:
+  nginx-net:
+    external: true

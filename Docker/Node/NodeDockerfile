@@ -27,4 +27,4 @@ RUN chmod +x /home/canine-node/scripts/${NODE_SCRIPT}
 CMD ["tail", "-f", "/dev/null" ]
 
 # exposing ports for canine
-EXPOSE 26657 26656 26658 1317 6060 9090 443
+EXPOSE 26657 26656 26658 1317 6060 9090

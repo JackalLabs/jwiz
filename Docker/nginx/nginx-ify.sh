@@ -22,11 +22,26 @@ mkdir -p html dhparam certs
 
 # powering on the nginx docker-compose file
 docker-compose -f compose-ssl-nginx.yml up -d
-docker run --rm --name $CONTAINER_NAME \
+set +e
+# connecting the spawned containers to their networks
+docker network connect $HOSTNETWORK reverse-proxy 
+# docker network connect $NET_NAME reverse-proxy
+
+docker network connect $HOSTNETWORK letsencrypt-helper 
+# docker network connect $NET_NAME letsencrypt-helper 
+set -e
+
+# changing proxy container names from the default
+docker rename reverse-proxy $PROXYCONTAINER_NAME
+docker rename letsencrypt-helper $PROXYCONTAINER_NAME"_LE-helper"
+
+# running the nginxified container
+docker run --rm --name=$CONTAINER_NAME \
 -e VIRTUAL_HOST=$HOSTNAME \
 -e LETSENCRYPT_HOST=$HOSTNAME \
---network $NET_NAME \
--d $CONTAINER_NAME
+-e VIRTUAL_PORT=26657 \
+--network=$HOSTNETWORK \
+-v "/root/common_store:/home/common_store" \
+-d $IMAGE_NAME
 
-# connecting the nginx container to the network 
-docker network connect $HOSTNETWORK $PROXYCONTAINER_NAME
+# docker network connect $NET_NAME $CONTAINER_NAME
