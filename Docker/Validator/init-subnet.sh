@@ -84,7 +84,8 @@ bash node-rpc.sh NODE_NAME=jackal-rpc \
 CHAIN_ID=${CHAIN_ID} \
 HOSTNAME=max.jackaldao.com \
 NODE_RELEASE=${RELEASE} \
-HOSTNETWORK=jackal-test
+HOSTNETWORK=jackal-test \
+NET_NAME=rpc-net
 
 # starting the chain 
 docker exec -d genesis-validator canined start
@@ -98,4 +99,5 @@ done
 bash provider.sh PROVIDER_RELEASE=v1.0.2 \
 CHAIN_ID=jackal-testing \
 HOSTNAME=max2.jackaldao.com \
-HOSTNETWORK=jackal-test
+HOSTNETWORK=jackal-test \
+NET_NAME=provider-net \
