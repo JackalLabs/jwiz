@@ -11,29 +11,34 @@ do
    export "$KEY"="$VALUE"
 done
 
-# groundwork for the nginx container
-# creating the custom network
-docker network remove $NET_NAME -f
-
-docker network create --attachable $NET_NAME
-
 # creating the necessary volume directories if they don't exist already
 mkdir -p html dhparam certs
 
-# powering on the nginx docker-compose file
-docker-compose -f compose-ssl-nginx.yml up -d
-set +e
-# connecting the spawned containers to their networks
-docker network connect $HOSTNETWORK reverse-proxy 
-# docker network connect $NET_NAME reverse-proxy
+# running the reverse-proxy
+docker run -d -v '/root/html:/usr/share/nginx/html' \
+-v '/root/dhparam:/etc/nginx/dhparam' \
+-v '/root/vhost:/etc/nginx/vhost.d' \
+-v '/root/certs:/etc/nginx/certs' \
+-v '/run/docker.sock:/tmp/docker.sock:ro' \
+--restart always \
+-p 443:443 \
+-p 80:80 \
+--name $PROXYCONTAINER_NAME \
+--network=$HOSTNETWORK \
+jwilder/nginx-proxy:latest
 
-docker network connect $HOSTNETWORK letsencrypt-helper 
-# docker network connect $NET_NAME letsencrypt-helper 
-set -e
-
-# changing proxy container names from the default
-docker rename reverse-proxy $PROXYCONTAINER_NAME
-docker rename letsencrypt-helper $PROXYCONTAINER_NAME"_LE-helper"
+# running the LE helper container
+docker run -d -v '/root/html:/usr/share/nginx/html' \
+-v '/root/dhparam:/etc/nginx/dhparam' \
+-v '/root/vhost:/etc/nginx/vhost.d' \
+-v '/root/certs:/etc/nginx/certs' \
+-v '/run/docker.sock:/tmp/docker.sock:ro' \
+--restart always \
+-e DEFAULT_EMAIL=max@jackallabs.io \
+-e NGINX_PROXY_CONTAINER=$PROXYCONTAINER_NAME \
+--name $PROXYCONTAINER_NAME"_LE-helper" \
+--network=$HOSTNETWORK \
+jrcs/letsencrypt-nginx-proxy-companion:latest
 
 # running the nginxified container
 docker run --rm --name=$CONTAINER_NAME \
@@ -43,5 +48,3 @@ docker run --rm --name=$CONTAINER_NAME \
 --network=$HOSTNETWORK \
 -v "/root/common_store:/home/common_store" \
 -d $IMAGE_NAME
-
-# docker network connect $NET_NAME $CONTAINER_NAME

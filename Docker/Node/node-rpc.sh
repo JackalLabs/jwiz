@@ -3,7 +3,7 @@ set -e
 
 # setting up the rpc connections
 # collecting keywords
-# required keywords: NODE_NAME, CHAIN_ID, HOSTNAME, NODE_RELEASE
+# required keywords: NODE_NAME, CHAIN_ID, HOSTNAME, HOSTNETWORK, NODE_RELEASE
 for ARGUMENT in "$@"
 do
    KEY=$(echo $ARGUMENT | cut -f1 -d=)

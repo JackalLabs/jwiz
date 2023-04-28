@@ -94,3 +94,8 @@ do
     docker exec -d validator_${i} canined start 
 done
 
+# connecting the jackal storage provider
+bash provider.sh PROVIDER_RELEASE=v1.0.2 \
+CHAIN_ID=jackal-testing \
+HOSTNAME=max2.jackaldao.com \
+HOSTNETWORK=jackal-test
