@@ -19,7 +19,7 @@ docker run -d -v '/root/html:/usr/share/nginx/html' \
 -v '/root/dhparam:/etc/nginx/dhparam' \
 -v '/root/vhost:/etc/nginx/vhost.d' \
 -v '/root/certs:/etc/nginx/certs' \
--v '/run/docker.sock:/tmp/docker.sock:ro' \
+-v '/var/run/docker.sock:/tmp/docker.sock:ro' \
 --restart always \
 -p 443:443 \
 -p 80:80 \
@@ -32,7 +32,7 @@ docker run -d -v '/root/html:/usr/share/nginx/html' \
 -v '/root/dhparam:/etc/nginx/dhparam' \
 -v '/root/vhost:/etc/nginx/vhost.d' \
 -v '/root/certs:/etc/nginx/certs' \
--v '/run/docker.sock:/tmp/docker.sock:ro' \
+-v '/var/run/docker.sock:/var/run/docker.sock:ro' \
 --restart always \
 -e DEFAULT_EMAIL=max@jackallabs.io \
 -e NGINX_PROXY_CONTAINER=$PROXYCONTAINER_NAME \
